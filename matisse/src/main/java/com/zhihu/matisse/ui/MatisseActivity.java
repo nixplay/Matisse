@@ -53,7 +53,9 @@ import android.widget.TextView;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.R;
 import com.zhihu.matisse.internal.entity.Album;
+import com.zhihu.matisse.internal.entity.IncapableCause;
 import com.zhihu.matisse.internal.entity.Item;
+import com.zhihu.matisse.internal.entity.MockItem;
 import com.zhihu.matisse.internal.entity.SelectionSpec;
 import com.zhihu.matisse.internal.loader.AlbumMediaLoader;
 import com.zhihu.matisse.internal.model.AlbumCollection;
@@ -584,11 +586,19 @@ public class MatisseActivity extends AppCompatActivity implements
         return mSelectedCollection;
     }
 
+    private boolean assertAddSelection(Item item) {
+        IncapableCause cause = mSelectedCollection.isAcceptable(item);
+        IncapableCause.handleCause(this, cause);
+        return cause == null;
+    }
+
     @Override
     public void capture() {
         if (mMediaStoreCompat != null) {
             if(mSpec.onlyShowImages()){
-                mMediaStoreCompat.dispatchCaptureIntent(MatisseActivity.this, MediaStore.ACTION_IMAGE_CAPTURE, REQUEST_CODE_CAPTURE_IMAGE);
+                if (assertAddSelection(MockItem.image())) {
+                    mMediaStoreCompat.dispatchCaptureIntent(MatisseActivity.this, MediaStore.ACTION_IMAGE_CAPTURE, REQUEST_CODE_CAPTURE_IMAGE);
+                }
             } else {
                 String[] options = {getResources().getString(R.string.photo), getResources().getString(R.string.video)};
 
@@ -599,10 +609,14 @@ public class MatisseActivity extends AppCompatActivity implements
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                mMediaStoreCompat.dispatchCaptureIntent(MatisseActivity.this, MediaStore.ACTION_IMAGE_CAPTURE, REQUEST_CODE_CAPTURE_IMAGE);
+                                if (assertAddSelection(MockItem.image())) {
+                                    mMediaStoreCompat.dispatchCaptureIntent(MatisseActivity.this, MediaStore.ACTION_IMAGE_CAPTURE, REQUEST_CODE_CAPTURE_IMAGE);
+                                }
                                 break;
                             case 1:
-                                mMediaStoreCompat.dispatchCaptureIntent(MatisseActivity.this, MediaStore.ACTION_VIDEO_CAPTURE, REQUEST_CODE_CAPTURE_VIDEO);
+                                if (assertAddSelection(MockItem.video())) {
+                                    mMediaStoreCompat.dispatchCaptureIntent(MatisseActivity.this, MediaStore.ACTION_VIDEO_CAPTURE, REQUEST_CODE_CAPTURE_VIDEO);
+                                }
                                 break;
                         }
                     }
