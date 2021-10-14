@@ -21,7 +21,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:3.5.4'
         classpath 'com.novoda:bintray-release:0.9.1'
         classpath group: 'com.layer', name: 'gradle-git-repo-plugin', version: '2.0.2'
     }
@@ -41,8 +41,8 @@ task clean(type: Delete) {
 ext {
     // SDK And Tools
     minSdkVersion = 18
-    targetSdkVersion = 29
-    compileSdkVersion = 29 // 这个版本号必须和 supportLibraryVersion 的大版本号保持一致
+    targetSdkVersion = 30
+    compileSdkVersion = 30 // 这个版本号必须和 supportLibraryVersion 的大版本号保持一致
     buildToolsVersion = '28.0.3' // 这个和compileSdkVersion、supportLibraryVersion都无关
     //Dependencies
     supportLibraryVersion = '28.0.3'
