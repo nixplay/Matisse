@@ -26,6 +26,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
@@ -68,6 +69,7 @@ import com.zhihu.matisse.internal.ui.widget.AlbumsSpinner;
 import com.zhihu.matisse.internal.utils.MediaStoreCompat;
 import com.zhihu.matisse.internal.utils.PathUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import com.zhihu.matisse.internal.utils.SingleMediaScanner;
@@ -251,11 +253,22 @@ public class MatisseActivity extends AppCompatActivity implements
             }
             this.getContentResolver().notifyChange(contentUri, this.mObserver);
             String path = mMediaStoreCompat.getCurrentPhotoPath();
-
+            //add the URI
             ArrayList<Uri> selected = new ArrayList<>();
             selected.add(contentUri);
+
+            /*//get the absolute path
+            Cursor cursor = getContentResolver().query(Uri.parse(path), null, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            //add the absolute path
+            ArrayList<String> selectedPath = new ArrayList<>();
+            selectedPath.add(cursor.getString(columnIndex));
+            cursor.close();*/
+
             ArrayList<String> selectedPath = new ArrayList<>();
             selectedPath.add(path);
+
             Intent result = new Intent();
             result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selected);
             result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPath);
