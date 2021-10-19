@@ -16,12 +16,11 @@
 apply plugin: 'com.android.library'
 apply plugin: "com.novoda.bintray-release"
 
-def publishVersionName="1.2.7"
-def supportLibraryVersion = project.hasProperty('supportLibraryVersion') ? project.supportLibraryVersion : "27.1.1"
+def publishVersionName="1.3.0"
+def supportLibraryVersion = project.hasProperty('supportLibraryVersion') ? project.supportLibraryVersion : "28.0.3"
 buildscript {
     repositories {
         jcenter()
-
     }
     dependencies {
         classpath "com.novoda:bintray-release:0.9"

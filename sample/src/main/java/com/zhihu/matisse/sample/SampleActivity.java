@@ -39,11 +39,14 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.engine.impl.PicassoEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
+import com.zhihu.matisse.internal.entity.Item;
+import com.zhihu.matisse.internal.model.SelectedItemCollection;
 import com.zhihu.matisse.listener.OnCameraSelected;
+import com.zhihu.matisse.listener.SelectionDelegate;
 
 import java.util.List;
 
-public class SampleActivity extends AppCompatActivity implements View.OnClickListener, OnCameraSelected {
+public class SampleActivity extends AppCompatActivity implements View.OnClickListener, OnCameraSelected, SelectionDelegate {
 
     private static final int REQUEST_CODE_CHOOSE = 23;
 
@@ -83,12 +86,12 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.zhihu:
                 Matisse.from(SampleActivity.this)
-                        .choose(MimeType.ofImage(), false)
+                        .choose(MimeType.ofAll(), false)
                         .countable(true)
                         .capture(true)
                         .captureStrategy(
                                 new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider"))
-                        .maxSelectable(9)
+                        .maxSelectable(2)
                         .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
                         .gridExpectedSize(
                                 getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
@@ -96,14 +99,15 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                         .thumbnailScale(0.85f)
                         .imageEngine(new GlideEngine())
                         .setOnSelectedListener((uriList, pathList) -> {
-                            Log.e("onSelected", "onSelected: pathList=" + pathList);
+                            Log.d("onSelected", "onSelected: pathList=" + pathList);
                         })
                         .showSingleMediaType(true)
                         .originalEnable(true)
                         .maxOriginalSize(10)
+                        .delegate(this)
                         .autoHideToolbarOnSingleTap(true)
                         .setOnCheckedListener(isChecked -> {
-                            Log.e("isChecked", "onCheck: isChecked=" + isChecked);
+                            Log.d("isChecked", "onCheck: isChecked=" + isChecked);
                         })
                         .setOnCameraSelectedListener(this)
                         .forResult(REQUEST_CODE_CHOOSE);
@@ -154,6 +158,29 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void cameraSelected() {
+    }
+
+    @Override
+    public String getCause(SelectedItemCollection.MaxItemReach reach) {
+
+        switch (reach) {
+            case MIX_REACH:
+                return "Mix cause";
+            case IMAGE_REACH:
+                return "Image cause";
+            case VIDEO_REACH:
+                return "Video cause";
+            default:
+                return "My cause";
+        }
+
+    }
+
+    @Override
+    public void onTapItem(Item item, Boolean isDontShow) {
+        if (item != null) {
+            Log.d("ACTIVITY_MATISSE", String.format("DURATION: %d seconds", (item.duration/1000)));
+        }
     }
 
     private static class UriAdapter extends RecyclerView.Adapter<UriAdapter.UriViewHolder> {

@@ -26,6 +26,7 @@ import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import com.zhihu.matisse.internal.entity.Item;
 import com.zhihu.matisse.internal.model.SelectedItemCollection;
+import com.zhihu.matisse.listener.OnCameraSelected;
 import com.zhihu.matisse.listener.SelectionDelegate;
 
 import java.util.List;
@@ -34,7 +35,7 @@ import java.util.Set;
 /**
  * Custom Matisse
  */
-public class CustomMatisseActivity extends AppCompatActivity implements View.OnClickListener, SelectionDelegate {
+public class CustomMatisseActivity extends AppCompatActivity implements View.OnClickListener, SelectionDelegate, OnCameraSelected {
 
     private static final int REQUEST_CODE_CHOOSE = 23;
     private static final String TAG = CustomMatisseActivity.class.getSimpleName();
@@ -127,12 +128,12 @@ public class CustomMatisseActivity extends AppCompatActivity implements View.OnC
         boolean countable = countableCheckBox.isChecked();
         boolean capture = captureCheckBox.isChecked();
 
-        Matisse.from(this)
+        /*Matisse.from(this)
                 .choose(mimeTypes, false)
                 .showSingleMediaType(true)
                 .capture(capture)
                 .captureStrategy(
-                        new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider"))
+                        new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "Pictures"))
                 .countable(countable)
                 .maxSelectable(maxSelectable)
                 .enablePreview(false)
@@ -140,7 +141,6 @@ public class CustomMatisseActivity extends AppCompatActivity implements View.OnC
                 .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
                 .gridExpectedSize(
                         getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 .thumbnailScale(0.85f)
                 .imageEngine(imageEngine)
@@ -150,6 +150,41 @@ public class CustomMatisseActivity extends AppCompatActivity implements View.OnC
                 .maxVideoLength(120)
                 .hasFeatureEnabled(true)
                 .dontShowVideoAlert(false)
+                .forResult(REQUEST_CODE_CHOOSE, mSelectedUris);*/
+
+        Matisse.from(this)
+                .choose(mimeTypes, false)
+                .countable(true)
+                .capture(true)
+                .captureStrategy(
+                        new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider"))
+                .maxSelectable(maxSelectable)
+                .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                .gridExpectedSize(
+                        getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                .thumbnailScale(0.85f)
+                .imageEngine(imageEngine)
+                .setOnSelectedListener((uriList, pathList) -> {
+                    Log.d("onSelected", "onSelected: pathList=" + pathList);
+                })
+                .showSingleMediaType(true)
+                .originalEnable(true)
+                .maxOriginalSize(10)
+                .maxVideoLength(120)
+                .allowsMultipleSelection(true)
+                .delegate(this)
+                .hasFeatureEnabled(true)
+                .dontShowVideoAlert(true)
+                .theme(theme)
+                .autoHideToolbarOnSingleTap(true)
+                .setOnSelectedListener((uriList, pathList) -> {
+                    Log.d("onSelected", "onSelected: pathList=" + pathList);
+                })
+                .setOnCheckedListener(isChecked -> {
+                    Log.d("isChecked", "onCheck: isChecked=" + isChecked);
+                })
+                .setOnCameraSelectedListener(this)
                 .forResult(REQUEST_CODE_CHOOSE, mSelectedUris);
 
     }
@@ -175,5 +210,10 @@ public class CustomMatisseActivity extends AppCompatActivity implements View.OnC
         if (item != null) {
             Log.d("ACTIVITY_MATISSE", String.format("DURATION: %d seconds", (item.duration/1000)));
         }
+    }
+
+    @Override
+    public void cameraSelected() {
+        Log.d(getClass().getName(), "Camera was selected");
     }
 }

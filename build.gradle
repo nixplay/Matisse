@@ -40,10 +40,10 @@ task clean(type: Delete) {
 
 ext {
     // SDK And Tools
-    minSdkVersion = 18
-    targetSdkVersion = 29
-    compileSdkVersion = 29 // 这个版本号必须和 supportLibraryVersion 的大版本号保持一致
-    buildToolsVersion = '28.0.3' // 这个和compileSdkVersion、supportLibraryVersion都无关
+    minSdkVersion = 23
+    targetSdkVersion = 30
+    compileSdkVersion = 30 // 这个版本号必须和 supportLibraryVersion 的大版本号保持一致
+    buildToolsVersion = '30.0.2' // 这个和compileSdkVersion、supportLibraryVersion都无关
     //Dependencies
     supportLibraryVersion = '28.0.3'
 }

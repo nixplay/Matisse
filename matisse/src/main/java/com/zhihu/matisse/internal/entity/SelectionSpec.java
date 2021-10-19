@@ -122,8 +122,8 @@ public final class SelectionSpec {
         isDontShowVideoAlert = false;
         alertTitle = "Long Video";
         alertBody = "Video longer than %ds will be trimmed when you upload.";
-        alertNBtn = "Dont Show";
-        alertPBtn = "OK";
+        alertNBtn = "Don't Show";
+        alertPBtn = "Okay";
         showPreview = true;
     }
 
