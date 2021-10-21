@@ -272,7 +272,6 @@ public class MatisseActivity extends AppCompatActivity implements
                     Log.i("SingleMediaScanner", "scan finish!");
                 }
             });
-            mAlbumCollection.loadAlbums();
 
             ArrayList<Uri> selectedUris = (ArrayList<Uri>) mSelectedCollection.asListOfUri();
             // add condition here where to select or not and broadcast message for the prompts
@@ -297,7 +296,6 @@ public class MatisseActivity extends AppCompatActivity implements
                     this.onUpdate(newlySelection.get(0));
                 }
             }
-            // end
 
             ArrayList<Item> selection = AlbumMediaLoader.querySelection(this, selectedUris);
 
@@ -310,6 +308,7 @@ public class MatisseActivity extends AppCompatActivity implements
                     .replace(R.id.container, fragment, MediaSelectionFragment.class.getSimpleName())
                     .commitAllowingStateLoss();
             updateBottomToolbar();
+            mAlbumCollection.loadAlbums();
         }
     }
 
@@ -538,7 +537,7 @@ public class MatisseActivity extends AppCompatActivity implements
 
     @Override
     public void capture() {
-        mSpec.onCameraSelected.cameraSelected();
+//        mSpec.onCameraSelected.cameraSelected();
         if (mMediaStoreCompat != null) {
             if(mSpec.onlyShowImages()) {
                 mMediaStoreCompat.dispatchCaptureIntent(MatisseActivity.this, MediaStore.ACTION_IMAGE_CAPTURE, REQUEST_CODE_CAPTURE_IMAGE);
@@ -565,5 +564,4 @@ public class MatisseActivity extends AppCompatActivity implements
 
         }
     }
-
 }
