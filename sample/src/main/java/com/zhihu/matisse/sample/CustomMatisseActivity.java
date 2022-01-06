@@ -159,7 +159,6 @@ public class CustomMatisseActivity extends AppCompatActivity implements View.OnC
                 .countable(countable)
                 .maxSelectable(maxSelectable)
                 .enablePreview(false)
-                .imageEngine(new PicassoEngine())
                 .showUseOrigin(false)
 //                .maxSelectablePerMediaType(maxSelectable, maxVideoSeletable)
                 .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
