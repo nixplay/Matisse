@@ -22,6 +22,8 @@
 
     <string name="button_preview">Anteprima</string>
     <string name="button_apply_default">Fatto</string>
+    <string name="button_settings">Cambia ora</string>
+    <string name="text_label_permission">Accesso alle foto limitato</string>
     <string name="button_apply">Fatto(%1$d)</string>
     <string name="button_back">Indietro</string>
     <string name="photo_grid_capture">Fotocamera</string>

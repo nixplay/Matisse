@@ -22,6 +22,8 @@
 
     <string name="button_preview">Vista previa</string>
     <string name="button_apply_default">Hecho</string>
+    <string name="button_settings">Cambiar ahora</string>
+    <string name="text_label_permission">Acceso limitado a las fotos</string>
     <string name="button_apply">Hecho(%1$d)</string>
     <string name="button_back">Atrás</string>
     <string name="photo_grid_capture">Cámara</string>
