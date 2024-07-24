@@ -22,6 +22,8 @@
 
     <string name="button_preview">Prévisualisation</string>
     <string name="button_apply_default">Terminé</string>
+    <string name="button_settings">Changer maintenant</string>
+    <string name="text_label_permission">Accès limité aux photos</string>
     <string name="button_apply">Terminé (%1$d)</string>
     <string name="button_back">Retour</string>
     <string name="photo_grid_capture">Appareil photo</string>
