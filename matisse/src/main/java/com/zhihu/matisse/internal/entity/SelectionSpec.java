@@ -70,6 +70,7 @@ public final class SelectionSpec {
     public String alertPBtn;
     public boolean showPreview;
     public OnCameraSelected onCameraSelected;
+    public boolean isLimitedPhotoAccess;
 
     public SelectionDelegate getDelegate() {
         return delegate;
@@ -125,6 +126,7 @@ public final class SelectionSpec {
         alertNBtn = "Dont Show";
         alertPBtn = "OK";
         showPreview = true;
+        isLimitedPhotoAccess = false;
     }
 
     public boolean singleSelectionModeEnabled() {
