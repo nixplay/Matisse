@@ -460,4 +460,9 @@ public final class SelectionCreator {
         mSelectionSpec.showPreview = showPreview;
         return this;
     }
+
+    public SelectionCreator isLimitedPhotoAccess(boolean allow) {
+        mSelectionSpec.isLimitedPhotoAccess = allow;
+        return this;
+    }
 }

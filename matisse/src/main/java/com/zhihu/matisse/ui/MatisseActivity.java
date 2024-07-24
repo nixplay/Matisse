@@ -18,7 +18,6 @@ package com.zhihu.matisse.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,13 +25,11 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -44,7 +41,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
-import android.util.Log;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -56,7 +53,6 @@ import com.zhihu.matisse.R;
 import com.zhihu.matisse.internal.entity.Album;
 import com.zhihu.matisse.internal.entity.Item;
 import com.zhihu.matisse.internal.entity.SelectionSpec;
-import com.zhihu.matisse.internal.loader.AlbumMediaLoader;
 import com.zhihu.matisse.internal.model.AlbumCollection;
 import com.zhihu.matisse.internal.model.SelectedItemCollection;
 import com.zhihu.matisse.internal.ui.AlbumPreviewActivity;
@@ -68,12 +64,6 @@ import com.zhihu.matisse.internal.ui.adapter.AlbumsAdapter;
 import com.zhihu.matisse.internal.ui.widget.AlbumsSpinner;
 import com.zhihu.matisse.internal.utils.MediaStoreCompat;
 import com.zhihu.matisse.internal.utils.PathUtils;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import com.zhihu.matisse.internal.utils.SingleMediaScanner;
-import com.zhihu.matisse.listener.SelectionDelegate;
 
 import java.util.ArrayList;
 
@@ -104,13 +94,14 @@ public class MatisseActivity extends AppCompatActivity implements
     private AlbumsAdapter mAlbumsAdapter;
     private TextView mButtonPreview;
     private TextView mButtonApply;
+    private TextView mButtonSettings;
     private View mContainer;
+    private View mOverlayPermission;
     private View mEmptyView;
     private Fragment fragment;
     private ContentObserver mObserver;
     private Handler mHandler;
     private Album mAlbum;
-    private Boolean isDontShow = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -165,6 +156,14 @@ public class MatisseActivity extends AppCompatActivity implements
         mButtonApply.setOnClickListener(this);
         mContainer = findViewById(R.id.container);
         mEmptyView = findViewById(R.id.empty_view);
+        mButtonSettings = (TextView) findViewById(R.id.button_settings);
+        mButtonSettings.setOnClickListener(this);
+        mOverlayPermission = findViewById(R.id.bottom_overlay);
+
+        // show limited overlay, redirect to settings
+        if (mSpec.isLimitedPhotoAccess) {
+            mOverlayPermission.setVisibility(View.VISIBLE);
+        }
 
         mSelectedCollection.onCreate(savedInstanceState);
         ArrayList<Item> selectionItems = getIntent().getParcelableArrayListExtra(SelectedItemCollection.STATE_SELECTION);
@@ -402,6 +401,16 @@ public class MatisseActivity extends AppCompatActivity implements
             startActivityForResult(intent, REQUEST_CODE_PREVIEW);
         } else if (v.getId() == R.id.button_apply) {
             this.onFinishSelection();
+        } else if (v.getId() == R.id.button_settings) {
+            // redirect to settings
+            final Intent i = new Intent();
+            i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            i.addCategory(Intent.CATEGORY_DEFAULT);
+            i.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+            getApplicationContext().startActivity(i);
         }
     }
 
@@ -585,5 +594,4 @@ public class MatisseActivity extends AppCompatActivity implements
 
         }
     }
-
 }
