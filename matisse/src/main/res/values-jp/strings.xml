@@ -22,8 +22,8 @@
 
     <string name="button_preview">Preview</string>
     <string name="button_apply_default">Done</string>
-    <string name="button_settings">Change now</string>
-    <string name="text_label_permission">Limited photo access</string>
+    <string name="button_settings">今すぐ変更</string>
+    <string name="text_label_permission">写真アクセスの制限</string>
     <string name="button_apply">Done(%1$d)</string>
     <string name="button_back">Back</string>
     <string name="photo_grid_capture">Camera</string>
