@@ -113,15 +113,20 @@ public class AlbumMediaAdapter extends
             MediaViewHolder mediaViewHolder = (MediaViewHolder) holder;
 
             final Item item = Item.valueOf(cursor);
-            mediaViewHolder.mMediaGrid.preBindMedia(new MediaGrid.PreBindInfo(
-                    getImageResize(mediaViewHolder.mMediaGrid.getContext()),
-                    mPlaceholder,
-                    mSelectionSpec.countable,
-                    holder
-            ));
-            mediaViewHolder.mMediaGrid.bindMedia(item);
-            mediaViewHolder.mMediaGrid.setOnMediaGridClickListener(this);
-            setCheckStatus(item, mediaViewHolder.mMediaGrid);
+
+            if (item.mimeType.contains("image/x-adobe-dng")) {
+                mediaViewHolder.mMediaGrid.setVisibility(ViewGroup.GONE);
+            } else {
+                mediaViewHolder.mMediaGrid.preBindMedia(new MediaGrid.PreBindInfo(
+                        getImageResize(mediaViewHolder.mMediaGrid.getContext()),
+                        mPlaceholder,
+                        mSelectionSpec.countable,
+                        holder
+                ));
+                mediaViewHolder.mMediaGrid.bindMedia(item);
+                mediaViewHolder.mMediaGrid.setOnMediaGridClickListener(this);
+                setCheckStatus(item, mediaViewHolder.mMediaGrid);
+            }
         }
     }
 

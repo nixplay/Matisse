@@ -256,7 +256,7 @@ public class AlbumLoader extends CursorLoader {
                     allAlbumCoverUri == null ? null : allAlbumCoverUri.toString(),
                     String.valueOf(totalCount)});
 
-            return new MergeCursor(new Cursor[]{allAlbum, otherAlbums});
+            return new MergeCursor(new Cursor[]{otherAlbums});
         }
     }
 
