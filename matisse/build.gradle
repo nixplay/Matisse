@@ -16,7 +16,7 @@
 apply plugin: 'com.android.library'
 apply plugin: "com.novoda.bintray-release"
 
-def publishVersionName="1.2.16"
+def publishVersionName="1.2.22"
 def supportLibraryVersion = project.hasProperty('supportLibraryVersion') ? project.supportLibraryVersion : "27.1.1"
 buildscript {
     repositories {
@@ -64,9 +64,10 @@ dependencies {
     implementation "com.android.support:support-annotations:$supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
 
-    provided 'com.github.bumptech.glide:glide:4.10.0'
+    compileOnly 'com.github.bumptech.glide:glide:4.15.1'
     // subsampling-scale-image-view
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.7.2'
+    //noinspection GradleDynamicVersion
     implementation 'it.sephiroth.android.library.imagezoom:imagezoom:+'
     implementation 'com.squareup.picasso:picasso:2.71828'
     // ImmersionBar
