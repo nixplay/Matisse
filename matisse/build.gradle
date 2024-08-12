@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 apply plugin: 'com.android.library'
-apply plugin: "com.novoda.bintray-release"
+apply plugin: 'maven-publish'
 
-def publishVersionName="1.2.12"
+def publishVersionName="1.2.33"
 def supportLibraryVersion = project.hasProperty('supportLibraryVersion') ? project.supportLibraryVersion : "27.1.1"
 buildscript {
     repositories {
         jcenter()
 
     }
-    dependencies {
-        classpath "com.novoda:bintray-release:0.9"
-    }
+    dependencies {}
 }
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -46,7 +44,6 @@ android {
 
 
 publish {
-    userOrg = "fishkingsin"
     groupId = "com.github.nixplay"
     artifactId = "matisse"
     publishVersion = "$publishVersionName"
@@ -55,6 +52,41 @@ publish {
     uploadName = "Matisse"
     website = "https://github.com/nixplay/Matisse.git"
 }
+
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            groupId = 'com.github.nixplay'
+//            artifactId = 'matisse'
+//            version = publishVersionName
+//            pom {
+//                name = 'Matisse'
+//                description = 'zhihu Matisse fork'
+//                url = 'https://github.com/nixplay/Matisse.git'
+//                properties = [
+//                        myProp: "value",
+//                        "prop.with.dots": "anotherValue"
+//                ]
+//                licenses {
+//                    license {
+//                        name = 'The Apache License, Version 2.0'
+//                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id = 'nixplay'
+//                        name = 'Nixplay'
+//                        email = 'mobile@nix-digital.com'
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    repositories {
+//        mavenLocal()
+//    }
+//}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
