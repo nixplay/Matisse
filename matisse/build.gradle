@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 apply plugin: 'com.android.library'
-apply plugin: "com.novoda.bintray-release"
+apply plugin: 'maven-publish'
 
-def publishVersionName="1.2.12"
+def publishVersionName="1.2.35"
 def supportLibraryVersion = project.hasProperty('supportLibraryVersion') ? project.supportLibraryVersion : "27.1.1"
 buildscript {
     repositories {
         jcenter()
 
     }
-    dependencies {
-        classpath "com.novoda:bintray-release:0.9"
-    }
+    dependencies {}
 }
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -45,15 +43,99 @@ android {
 }
 
 
-publish {
-    userOrg = "fishkingsin"
-    groupId = "com.github.nixplay"
-    artifactId = "matisse"
-    publishVersion = "$publishVersionName"
-    desc = "zhihu Matisse forwk"
-    licences = ["Apache-2.0"]
-    uploadName = "Matisse"
-    website = "https://github.com/nixplay/Matisse.git"
+//publish {
+//    userOrg = "fishkingsin"
+//    groupId = "com.github.nixplay"
+//    artifactId = "matisse"
+//    publishVersion = "$publishVersionName"
+//    desc = "zhihu Matisse forwk"
+//    licences = ["Apache-2.0"]
+//    uploadName = "Matisse"
+//    website = "https://github.com/nixplay/Matisse.git"
+//}
+
+task androidJavadocs(type: Javadoc){
+    source = android.sourceSets.main.java.srcDirs
+
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    android.libraryVariants.all{ variant->
+        if (variant.name == 'release'){
+            owner.classpath += variant.javaCompileProvider.get().classpath
+        }
+    }
+    // excluding a specific class from being documented
+    exclude '**/NameOfClassToExclude.java'
+
+    title = null
+
+    options{
+        doclet = "com.google.doclava.Doclava"
+        docletpath = [file("libs/doclava-1.0.6.jar")]
+        noTimestamp = false
+
+        // show only Protected & Public
+        memberLevel = JavadocMemberLevel.PROTECTED
+    }
+
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs){
+    archiveClassifier.set('javadoc')
+    from androidJavadocs.destinationDir
+}
+
+
+task androidSourcesJar(type: Jar){
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+}
+
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            groupId = 'com.github.nixplay'
+//            artifactId = 'matisse'
+//            version = publishVersionName
+//            pom {
+//                name = 'Matisse'
+//                description = 'zhihu Matisse fork'
+//                url = 'https://github.com/nixplay/Matisse.git'
+//                licenses {
+//                    license {
+//                        name = 'The Apache License, Version 2.0'
+//                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id = 'nixplay'
+//                        name = 'Nixplay'
+//                        email = 'mobile@nix-digital.com'
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    repositories {
+//        mavenLocal()
+//    }
+//}
+
+afterEvaluate {
+    publishing{
+        publications{
+            release(MavenPublication){
+                groupId = 'com.github.nixplay'
+                artifactId = 'matisse'
+                version = publishVersionName
+                // Applies the component for the release build variant
+                from components.release
+                // Adds javadocs and sources as separate jars.
+                artifact androidSourcesJar
+                artifact androidJavadocsJar
+            }
+        }
+    }
 }
 
 dependencies {
