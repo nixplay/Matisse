@@ -16,7 +16,7 @@
 apply plugin: 'com.android.library'
 apply plugin: "com.novoda.bintray-release"
 
-def publishVersionName="1.2.16"
+def publishVersionName="1.2.22"
 def supportLibraryVersion = project.hasProperty('supportLibraryVersion') ? project.supportLibraryVersion : "27.1.1"
 buildscript {
     repositories {
@@ -68,7 +68,7 @@ dependencies {
     // subsampling-scale-image-view
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.7.2'
     implementation 'it.sephiroth.android.library.imagezoom:imagezoom:+'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.picasso:picasso:2.8'
     // ImmersionBar
     implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
