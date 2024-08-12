@@ -51,6 +51,7 @@ public class AlbumMediaLoader extends CursorLoader {
             "(" + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?"
                     + " OR "
                     + MediaStore.Files.FileColumns.MEDIA_TYPE + "=?)"
+                    + "AND " + MediaStore.MediaColumns.MIME_TYPE + "!='image/x-adobe-dng'"
                     + " AND " + MediaStore.MediaColumns.SIZE + ">0";
     private static final String[] SELECTION_ALL_ARGS = {
             String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE),
