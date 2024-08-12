@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 apply plugin: 'com.android.library'
-apply plugin: "com.novoda.bintray-release"
+apply plugin: 'maven-publish'
+//apply plugin: 'java'
 
-def publishVersionName="1.2.12"
+def publishVersionName="1.2.31"
 def supportLibraryVersion = project.hasProperty('supportLibraryVersion') ? project.supportLibraryVersion : "27.1.1"
 buildscript {
     repositories {
         jcenter()
 
     }
-    dependencies {
-        classpath "com.novoda:bintray-release:0.9"
-    }
+    dependencies {}
 }
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -45,15 +44,28 @@ android {
 }
 
 
-publish {
-    userOrg = "fishkingsin"
-    groupId = "com.github.nixplay"
-    artifactId = "matisse"
-    publishVersion = "$publishVersionName"
-    desc = "zhihu Matisse forwk"
-    licences = ["Apache-2.0"]
-    uploadName = "Matisse"
-    website = "https://github.com/nixplay/Matisse.git"
+//publish {
+//    userOrg = "fishkingsin"
+//    groupId = "com.github.nixplay"
+//    artifactId = "matisse"
+//    publishVersion = "$publishVersionName"
+//    desc = "zhihu Matisse forwk"
+//    licences = ["Apache-2.0"]
+//    uploadName = "Matisse"
+//    website = "https://github.com/nixplay/Matisse.git"
+//}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.github.nixplay'
+            artifactId = 'matisse'
+            version = publishVersionName
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
 }
 
 dependencies {
