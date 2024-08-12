@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 apply plugin: 'com.android.library'
-apply plugin: "com.novoda.bintray-release"
+//apply plugin: "com.novoda.bintray-release"
 
 def publishVersionName="1.2.12"
 def supportLibraryVersion = project.hasProperty('supportLibraryVersion') ? project.supportLibraryVersion : "27.1.1"
@@ -24,7 +24,7 @@ buildscript {
 
     }
     dependencies {
-        classpath "com.novoda:bintray-release:0.9"
+//        classpath "com.novoda:bintray-release:0.9"
     }
 }
 android {
@@ -45,16 +45,16 @@ android {
 }
 
 
-publish {
-    userOrg = "fishkingsin"
-    groupId = "com.github.nixplay"
-    artifactId = "matisse"
-    publishVersion = "$publishVersionName"
-    desc = "zhihu Matisse forwk"
-    licences = ["Apache-2.0"]
-    uploadName = "Matisse"
-    website = "https://github.com/nixplay/Matisse.git"
-}
+//publish {
+//    userOrg = "fishkingsin"
+//    groupId = "com.github.nixplay"
+//    artifactId = "matisse"
+//    publishVersion = "$publishVersionName"
+//    desc = "zhihu Matisse forwk"
+//    licences = ["Apache-2.0"]
+//    uploadName = "Matisse"
+//    website = "https://github.com/nixplay/Matisse.git"
+//}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
