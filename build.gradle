@@ -18,11 +18,9 @@ buildscript {
     repositories {
         jcenter()
         google()
-        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.4'
-        classpath 'com.novoda:bintray-release:0.9.1'
         classpath group: 'com.layer', name: 'gradle-git-repo-plugin', version: '2.0.2'
     }
 }
@@ -31,6 +29,8 @@ allprojects {
     repositories {
         jcenter()
         google()
+        maven { url "https://jitpack.io" }
+        maven { url 'https://mvnrepository.com/artifact/com.gyf.barlibrary/barlibrary'}
     }
 }
 

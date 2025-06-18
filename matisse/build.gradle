@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 apply plugin: 'com.android.library'
-apply plugin: "com.novoda.bintray-release"
 
 def publishVersionName="1.2.16"
-def supportLibraryVersion = project.hasProperty('supportLibraryVersion') ? project.supportLibraryVersion : "27.1.1"
+
 buildscript {
     repositories {
         jcenter()
 
     }
-    dependencies {
-        classpath "com.novoda:bintray-release:0.9"
-    }
+    dependencies {}
 }
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -45,32 +42,31 @@ android {
 }
 
 
-publish {
-    userOrg = "fishkingsin"
-    groupId = "com.github.nixplay"
-    artifactId = "matisse"
-    publishVersion = "$publishVersionName"
-    desc = "zhihu Matisse forwk"
-    licences = ["Apache-2.0"]
-    uploadName = "Matisse"
-    website = "https://github.com/nixplay/Matisse.git"
-}
+// publish {
+//     userOrg = "fishkingsin"
+//     groupId = "com.github.nixplay"
+//     artifactId = "matisse"
+//     publishVersion = "$publishVersionName"
+//     desc = "zhihu Matisse forwk"
+//     licences = ["Apache-2.0"]
+//     uploadName = "Matisse"
+//     website = "https://github.com/nixplay/Matisse.git"
+// }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "com.android.support:support-v4:$supportLibraryVersion"
-    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
-    implementation "com.android.support:support-annotations:$supportLibraryVersion"
-    implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
 
     provided 'com.github.bumptech.glide:glide:4.10.0'
     // subsampling-scale-image-view
-    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.7.2'
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
     implementation 'it.sephiroth.android.library.imagezoom:imagezoom:+'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.picasso:picasso:2.8'
     // ImmersionBar
-    implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
-    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+    // implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
+    // implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
 
 }
